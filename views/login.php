@@ -18,6 +18,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
   <title>Fury</title>
   <link rel="icon" href="../asset/logo.png" type="image/png" />
   <link rel="stylesheet" href="../css/login.css" />
+  <link rel="stylesheet" href="../css/resLoginn.css" />
 </head>
 
 <body>
@@ -54,9 +55,6 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
           </div>
 
           <button type="submit" name="login">Login</button>
-          <a href="#">
-            <p>Forgot Password</p>
-          </a>
         </form>
       </div>
 

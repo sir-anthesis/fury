@@ -1,11 +1,19 @@
 <?php
 session_start();
 include 'core/db.php';
+$conn = getConnection();
 
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
   echo '<script>window.location.href="views/login.php";</script>';
   exit;
 }
+
+$username = $_SESSION['username'];
+$email = $_SESSION['email'];
+$password = $_SESSION['password'];
+$user_id = $_SESSION['user_id'];
+$pp = $_SESSION['profile_picture'];
+
 ?>
 
 <!DOCTYPE html>
@@ -14,64 +22,197 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="asset/logo.png" type="image/png" />
   <title>Fury</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      padding: 0;
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    section {
-      position: relative;
-      overflow: hidden;
-      height: 100vh;
-      width: 100%;
-    }
-
-    .home {
-      z-index: -5;
-      background: #000;
-      background-image: url(asset/home1.png);
-      background-size: cover;
-    }
-
-    .waves {
-      position: absolute;
-      width: 100%;
-      height: 30vh;
-      padding: 0;
-      margin: 0;
-      bottom: 0;
-    }
-
-    .wave1 {
-      width: 100%;
-      position: absolute;
-      bottom: -80%;
-      z-index: -1;
-    }
-
-    .wave2 {
-      width: 100%;
-      position: absolute;
-      bottom: -45%;
-      z-index: -2;
-    }
-
-    .wave3 {
-      width: 100%;
-      position: absolute;
-      bottom: -55%;
-      z-index: -3;
-    }
-  </style>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/resIndex.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 </head>
 
 <body>
-  <a href="controller/controller.php?logout">ceritanya tombol logout</a>
   <section class="home">
+    <nav>
+      <div class="logo">
+        <a href="#">
+          <img src="asset/logo2.png" alt="" />
+          <h1>Fury</h1>
+        </a>
+      </div>
+      <div class="profile">
+        <p>Hai
+          <?= $username ?>
+        </p>
+        <a href="#" onclick="toggleProfileContainer()">
+          <div id="pp">
+            <img src="<?= $pp ?>" alt="">
+          </div>
+        </a>
+      </div>
+      <div class="profile-container">
+        <a href="#" onclick="closeProfileContainer()">
+          <i class="bi bi-x-lg"></i>
+        </a>
+        <div class="profile-content">
+          <div class="profile-photo">
+            <img src="<?= $pp ?>" alt="" />
+          </div>
+          <form action="">
+            <div class="profile-data">
+              <div class="data">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-input" name="name" value="<?= $username ?>" readonly />
+              </div>
+              <div class="data">
+                <label for="name" class="form-label">Email</label>
+                <input type="text" class="form-input" name="email" value="<?= $email ?>" readonly />
+              </div>
+              <div class="data">
+                <label for="name" class="form-label">Password</label>
+                <input type="text" class="form-input" name="password" value="<?= $password ?>" readonly />
+              </div>
+              <div class="data pp-input">
+                <label for="name" class="form-label">Profile Picture</label>
+                <input type="file" class="form-input" name="pp" readonly />
+              </div>
+              <div class="profile-buttons">
+                <i class="profile-button cancel-button" onclick="cancelEdit()">
+                  Cancel
+                </i>
+                <i class="profile-button edit-button" onclick="toggleEdit()">
+                  Edit
+                </i>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <div class="home-content">
+      <div class="left">
+        <div class="mode-img-home">
+          <img src="asset/ship.gif" alt="" class="img-home" />
+        </div>
+
+        <div class="button-container">
+          <div class="arrow-left bi bi-caret-left-fill" onclick="changeDifficulty('left')"></div>
+          <button class="home-button" onclick="redirectToPlay(this)">
+            medium
+          </button>
+          <div class="arrow-right bi bi-caret-right-fill" onclick="changeDifficulty('right')"></div>
+        </div>
+
+        <div class="text-mode">
+          <p>Click to Start!</p>
+        </div>
+      </div>
+      <div class="right">
+
+        <div class="leaderboard l-easy">
+          <div class="title-leaderboard">
+            <h2>Leaderboard</h2>
+            <div class="leaderboard-mode">
+              <p>EASY</p>
+            </div>
+          </div>
+          <?php
+          $easyQuery = "SELECT * FROM vw_leaderboard where mode = 'easy' ORDER BY score DESC";
+          $results = $conn->query($easyQuery);
+          $datas = $results->fetchAll();
+          $i = 1;
+          ?>
+          <div class="list-leaderboard">
+            <ul>
+              <?php foreach ($datas as $data) { ?>
+                <li>
+                  <div class="prof">
+                    <div class="index">
+                      <?= $i++ ?>
+                    </div>
+                    <div id="pp"><img src="<?= $data['profile_picture'] ?>" alt=""></div>
+                    <?= $data['username'] ?>
+                  </div>
+                  <div class="score">
+                    <h2>
+                      <?= $data['score'] ?>
+                    </h2>
+                  </div>
+                </li>
+              <?php } ?>
+            </ul>
+          </div>
+        </div>
+
+        <div class="leaderboard l-medium">
+          <div class="title-leaderboard">
+            <h2>Leaderboard</h2>
+            <div class="leaderboard-mode">
+              <p>MEDIUM</p>
+            </div>
+          </div>
+          <?php
+          $easyQuery = "SELECT * FROM vw_leaderboard where mode = 'medium' ORDER BY score DESC";
+          $results = $conn->query($easyQuery);
+          $datas = $results->fetchAll();
+          $i = 1;
+          ?>
+          <div class="list-leaderboard">
+            <ul>
+              <?php foreach ($datas as $data) { ?>
+                <li>
+                  <div class="prof">
+                    <div class="index">
+                      <?= $i++ ?>
+                    </div>
+                    <div id="pp"><img src="<?= $data['profile_picture'] ?>" alt=""></div>
+                    <?= $data['username'] ?>
+                  </div>
+                  <div class="score">
+                    <h2>
+                      <?= $data['score'] ?>
+                    </h2>
+                  </div>
+                </li>
+              <?php } ?>
+            </ul>
+          </div>
+        </div>
+
+        <div class="leaderboard l-hard">
+          <div class="title-leaderboard">
+            <h2>Leaderboard</h2>
+            <div class="leaderboard-mode">
+              <p>HARD</p>
+            </div>
+          </div>
+          <?php
+          $easyQuery = "SELECT * FROM vw_leaderboard where mode = 'hard' ORDER BY score DESC";
+          $results = $conn->query($easyQuery);
+          $datas = $results->fetchAll();
+          $i = 1;
+          ?>
+          <div class="list-leaderboard">
+            <ul>
+              <?php foreach ($datas as $data) { ?>
+                <li>
+                  <div class="prof">
+                    <div class="index">
+                      <?= $i++ ?>
+                    </div>
+                    <div id="pp"><img src="<?= $data['profile_picture'] ?>" alt=""></div>
+                    <?= $data['username'] ?>
+                  </div>
+                  <div class="score">
+                    <h2>
+                      <?= $data['score'] ?>
+                    </h2>
+                  </div>
+                </li>
+              <?php } ?>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="waves">
       <svg class="wave1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
         <path fill="#0099ff" fill-opacity="1"
@@ -91,12 +232,13 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     </div>
   </section>
 
-  <section class="dashboard">
-  </section>
+  <footer>
+    <p>h</p>
+  </footer>
 
   <script src="script/jquery-3.7.1.min.js"></script>
   <script src="script/jquery.easing.1.3.js"></script>
-  <script src="script/script.js"></script>
+  <script src="script/indexx.js"></script>
 </body>
 
 </html>

@@ -16,4 +16,16 @@ if (isset($_GET['logout'])) {
     $model->logout();
 }
 
+if (isset($_GET['play'])) {
+    $model->play();
+}
+
+if (isset($_POST['save'])) {
+    $model->savingScore();
+}
+
+if (isset($_POST['update'])) {
+    $model->updateProfile($_SESSION['user_id']);
+}
+
 
