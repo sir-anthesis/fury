@@ -91,9 +91,33 @@ nav {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   /* border: 1px solid black; */
+}
+.logout {
+  height: 2rem;
+  font-style: normal;
+  width: 6rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out,
+    transform 0.2s ease-in-out;
+  background-color: grey;
+  color: #fff;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.logout:hover{
+  background-color: black;
+}
+#logout-btn {
+  font-size: 1rem;
 }
 .profile-photo {
   width: 180px;

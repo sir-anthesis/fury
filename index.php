@@ -24,8 +24,8 @@ $pp = $_SESSION['profile_picture'];
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="asset/logo.png" type="image/png" />
   <title>Fury</title>
-  <link rel="stylesheet" href="css/index.css" />
-  <link rel="stylesheet" href="css/resIndex.css" />
+  <link rel="stylesheet" href="css/indexx.css" />
+  <link rel="stylesheet" href="css/resIndexx.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 </head>
 
@@ -84,6 +84,11 @@ $pp = $_SESSION['profile_picture'];
               </div>
             </div>
           </form>
+
+          <div class="logout">
+            <a href="controller/controller.php?logout" id="logout-btn">Logout</a>
+          </div>
+
         </div>
       </div>
     </nav>

@@ -18,6 +18,13 @@
         flex-direction: unset;
         align-items: center;
         justify-content: space-between;
+        /* width: 100%; */
+    }
+
+    .logout {
+        z-index: 10;
+        top: 0rem;
+        right: 0rem;
     }
 
     /* .profile-content form {
@@ -26,24 +33,21 @@
     } */
 
     .profile-photo {
+        position: relative;
+        top: -4rem;
         width: 180px;
         height: 180px;
         border-radius: 50%;
-        border: 2px solid red;
-    }
-
-    .profile-photo img {
-        border: 2px solid blue;
     }
 
     .profile-data {
-        width: 100%;
+        /* width: 90%; */
         padding: 0;
     }
 
-    .profile-data .data {
+    /* .profile-data .data {
         width: 100%;
-    }
+    } */
 
     .mode-img-home {
         width: 250px;

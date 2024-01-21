@@ -15,9 +15,10 @@ class models
         $email = $_POST['email'];
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $pp = "asset/profile/default.png";
 
-        $stmt = $this->conn->prepare("INSERT INTO tb_game (email, username, password) VALUES (?,?,?)");
-        $stmt->execute([$email, $username, $password]);
+        $stmt = $this->conn->prepare("INSERT INTO tb_user (email, username, password, profile_picture) VALUES (?,?,?,?)");
+        $stmt->execute([$email, $username, $password, $pp]);
 
         echo '<script>alert("Signup successful!");';
         echo 'window.location.href="../views/login.php";</script>';
